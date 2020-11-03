@@ -1,4 +1,3 @@
-import { DollarsToCents } from '../utils/DollarsToCents';
 import Expense, { IExpense } from './model';
 
 interface ICreateExpenseInput {
@@ -20,6 +19,9 @@ export const CreateExpense = async ({
   amount,
   category,
 }: ICreateExpenseInput): Promise<IExpense> => {
-  const parsedAmount: number = DollarsToCents(amount);
-  return await Expense.create({ description, amount: parsedAmount, category });
+  return await Expense.create({ description, amount, category });
+};
+
+export const DeleteExpense = async (id: string): Promise<IExpense> => {
+  return await Expense.findByIdAndDelete(id);
 };

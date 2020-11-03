@@ -1,5 +1,10 @@
 import { Request, Response, Router } from 'express';
-import { CreateExpense, GetAllExpenses, GetExpense } from './controller';
+import {
+  CreateExpense,
+  DeleteExpense,
+  GetAllExpenses,
+  GetExpense,
+} from './controller';
 
 const router = Router();
 
@@ -26,6 +31,15 @@ router.get('/expenses/:id', async (req: Request, res: Response) => {
 router.post('/expenses', async (req: Request, res: Response) => {
   try {
     const result = await CreateExpense({ ...req.body });
+    res.json({ status: 'ok', data: result });
+  } catch (e) {
+    res.status(400).json({ status: 'error', message: e.message });
+  }
+});
+
+router.delete('/expenses/:id', async (req: Request, res: Response) => {
+  try {
+    const result = await DeleteExpense(req.params.id);
     res.json({ status: 'ok', data: result });
   } catch (e) {
     res.status(400).json({ status: 'error', message: e.message });
