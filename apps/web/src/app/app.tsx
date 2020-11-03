@@ -9,26 +9,14 @@ import {
   makeStyles,
   MenuItem,
   Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
   TextField,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
-import useSWR from 'swr';
+import { ReactQueryDevtools } from 'react-query-devtools';
+import { ExpenseTable } from '../components/ExpenseTable';
 
 import { Header } from '../components/header';
-import { ExpenseRow } from '../components/ExpenseRow';
-import { Expense } from '@bagwatch/data';
-
-const expenseUrl = '/api/expenses';
-const getData = async () => {
-  const res = await fetch(expenseUrl);
-  return await res.json();
-};
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -47,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const App = () => {
-  const { data } = useSWR(expenseUrl, getData);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [category, setCategory] = React.useState('');
   const classes = useStyles();
@@ -68,29 +55,7 @@ export const App = () => {
     <>
       <Header />
       <Container>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableCell>Description</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell>Amount</TableCell>
-            </TableHead>
-            <TableBody>
-              {data ? (
-                data.data.map((e: Expense) => (
-                  <ExpenseRow
-                    description={e.description}
-                    amount={e.amount}
-                    category={e.category}
-                    key={e._id}
-                  />
-                ))
-              ) : (
-                <TableCell>loading...</TableCell>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <ExpenseTable />
       </Container>
       <Dialog open={dialogOpen} onClose={handleClose} fullWidth={true}>
         <DialogTitle id="form-dialog-title">Add Expense</DialogTitle>
