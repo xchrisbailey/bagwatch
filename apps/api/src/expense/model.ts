@@ -1,11 +1,6 @@
-import { Schema, Document, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { dollarsToCents } from '../utils/math';
-
-export interface IExpense extends Document {
-  description: string;
-  amount: number;
-  category: string;
-}
+import { Expense as IExpense } from '@bagwatch/data';
 
 const expenseSchema: Schema = new Schema(
   {

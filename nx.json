@@ -23,6 +23,9 @@
     }
   },
   "projects": {
+    "api": {
+      "tags": []
+    },
     "web": {
       "tags": []
     },
@@ -30,7 +33,7 @@
       "tags": [],
       "implicitDependencies": ["web"]
     },
-    "api": {
+    "data": {
       "tags": []
     }
   }

@@ -1,4 +1,5 @@
-import Expense, { IExpense } from './model';
+import Expense from './model';
+import { Expense as IExpense } from '@bagwatch/data';
 
 interface ICreateExpenseInput {
   description: string;
