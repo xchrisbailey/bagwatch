@@ -19,7 +19,7 @@ const deleteMutation = async (id: string): Promise<void> => {
 
 export const ExpenseRow = ({ expense }: props) => {
   const cache = useQueryCache();
-  const [mutate] = useMutation(deleteMutation, {
+  const [deleteMutate] = useMutation(deleteMutation, {
     onSuccess: async () => await cache.refetchQueries(),
   });
   const famount = `$${(expense.amount / 100).toFixed(2) || 0}`;
@@ -35,7 +35,7 @@ export const ExpenseRow = ({ expense }: props) => {
         <IconButton
           aria-label="Delete"
           color="secondary"
-          onClick={async () => await mutate(expense._id)}
+          onClick={async () => await deleteMutate(expense._id)}
         >
           <DeleteIcon />
         </IconButton>
