@@ -1,4 +1,4 @@
-import Expense from './model';
+import Expense from './expense.model';
 import { Expense as IExpense } from '@bagwatch/data';
 
 interface ICreateExpenseInput {
@@ -20,7 +20,11 @@ export const CreateExpense = async ({
   amount,
   category,
 }: ICreateExpenseInput): Promise<IExpense> => {
-  return await Expense.create({ description, amount, category });
+  const expense = new Expense();
+  expense.amount = amount;
+  expense.description = description;
+  expense.category = category;
+  return await expense.save();
 };
 
 export const DeleteExpense = async (id: string): Promise<IExpense> => {

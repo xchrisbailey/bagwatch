@@ -1,11 +1,14 @@
 import * as express from 'express';
-import db from './db';
+import morgan from 'morgan';
+
+import { db } from './config/';
 import { ExpenseRouter } from './expense';
 
 const app: express.Application = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
 
 app.use('/api', ExpenseRouter);
 

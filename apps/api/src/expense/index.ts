@@ -1,1 +1,1 @@
-export { default as ExpenseRouter } from './routes';
+export { default as ExpenseRouter } from './expense.routes';

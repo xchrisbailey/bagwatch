@@ -4,7 +4,7 @@ import {
   DeleteExpense,
   GetAllExpenses,
   GetExpense,
-} from './controller';
+} from './expense.controller';
 
 const router = Router();
 

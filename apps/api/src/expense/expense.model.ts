@@ -7,6 +7,7 @@ const expenseSchema: Schema = new Schema(
     description: { type: String, required: true },
     amount: { type: Number, required: true, set: dollarsToCents },
     category: { type: String, required: true },
+    user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   },
   { timestamps: true }
 );
