@@ -4,15 +4,18 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TableRow,
 } from '@material-ui/core';
 import React from 'react';
+import axios from 'axios';
 import { useQuery } from 'react-query';
 import { ExpenseRow } from './ExpenseRow';
 import { Expense } from '@bagwatch/data';
 
 export const ExpenseTable = () => {
-  const { isLoading, error, data } = useQuery('data', () =>
-    fetch('/api/expenses').then((res) => res.json())
+  const { isLoading, error, data } = useQuery(
+    'expenseQuery',
+    async () => await axios.get('/api/expenses')
   );
 
   if (error) return <p>error: {error}</p>;
@@ -22,23 +25,18 @@ export const ExpenseTable = () => {
     <TableContainer>
       <Table>
         <TableHead>
-          <TableCell>Description</TableCell>
-          <TableCell>Category</TableCell>
-          <TableCell>Amount</TableCell>
+          <TableRow>
+            <TableCell></TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell>Category</TableCell>
+            <TableCell>Amount</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
         </TableHead>
         <TableBody>
-          {data ? (
-            data.data.map((e: Expense) => (
-              <ExpenseRow
-                description={e.description}
-                amount={e.amount}
-                category={e.category}
-                key={e._id}
-              />
-            ))
-          ) : (
-            <TableCell>loading...</TableCell>
-          )}
+          {data.data.result.map((e: Expense) => (
+            <ExpenseRow expense={e} key={e._id} />
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
