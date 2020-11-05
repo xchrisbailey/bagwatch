@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { BrowserRouter } from 'react-router-dom';
 
-import App from './app/app';
+import Landing from './pages/Landing';
 import { CssBaseline } from '@material-ui/core';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 
@@ -14,7 +14,7 @@ ReactDOM.render(
     <ReactQueryCacheProvider queryCache={queryCache}>
       <BrowserRouter>
         <CssBaseline />
-        <App />
+        <Landing />
       </BrowserRouter>
     </ReactQueryCacheProvider>
   </React.StrictMode>,

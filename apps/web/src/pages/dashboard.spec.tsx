@@ -3,13 +3,13 @@ import { render } from '@testing-library/react';
 
 import { BrowserRouter } from 'react-router-dom';
 
-import App from './app';
+import Landing from './landing';
 
 describe('App', () => {
   it('should render successfully', () => {
     const { baseElement } = render(
       <BrowserRouter>
-        <App />
+        <Landing />
       </BrowserRouter>
     );
 
@@ -19,7 +19,7 @@ describe('App', () => {
   it('should have a greeting as the title', () => {
     const { getByText } = render(
       <BrowserRouter>
-        <App />
+        <Landing />
       </BrowserRouter>
     );
 

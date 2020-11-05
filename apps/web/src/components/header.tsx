@@ -1,43 +1,37 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import {
   AppBar,
   Button,
-  IconButton,
   makeStyles,
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 
-const useStyles = makeStyles((theme) => ({
+interface Props {
+  openLogin: Dispatch<SetStateAction<boolean>>;
+}
+
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
   },
 }));
 
-export const Header = () => {
+export const Header = ({ openLogin }: Props) => {
   const classes = useStyles();
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="menu"
-        >
-          <MenuIcon />
-        </IconButton>
         <Typography variant="h6" className={classes.title}>
           BAG watch
         </Typography>
-        <Button color="inherit">Login</Button>
+        <Button color="inherit" onClick={() => openLogin(true)}>
+          Login
+        </Button>
+        <Button color="inherit">Sign Up</Button>
       </Toolbar>
     </AppBar>
   );
