@@ -7,15 +7,15 @@ interface ICreateExpenseInput {
   category: string;
 }
 
-export const GetAllExpenses = async (): Promise<IExpense[]> => {
+export const getAllExpenses = async (): Promise<IExpense[]> => {
   return await Expense.find({});
 };
 
-export const GetExpense = async (id: string): Promise<IExpense> => {
+export const getExpense = async (id: string): Promise<IExpense> => {
   return await Expense.findById(id);
 };
 
-export const CreateExpense = async ({
+export const createExpense = async ({
   description,
   amount,
   category,
@@ -27,6 +27,6 @@ export const CreateExpense = async ({
   return await expense.save();
 };
 
-export const DeleteExpense = async (id: string): Promise<IExpense> => {
+export const deleteExpense = async (id: string): Promise<IExpense> => {
   return await Expense.findByIdAndDelete(id);
 };

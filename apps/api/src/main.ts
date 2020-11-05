@@ -3,6 +3,7 @@ import morgan from 'morgan';
 
 import { db } from './config/';
 import { ExpenseRouter } from './expense';
+import { UserRouter } from './user';
 
 const app: express.Application = express();
 
@@ -11,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 app.use('/api', ExpenseRouter);
+app.use('/api', UserRouter);
 
 const port = process.env.port || 3333;
 const server = app.listen(port, () => {
