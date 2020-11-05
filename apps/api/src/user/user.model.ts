@@ -53,6 +53,9 @@ userSchema.pre<IUser>('save', async function (next) {
   next();
 });
 
+userSchema.set('toObject', { virtuals: true });
+userSchema.set('toJSON', { virtuals: true });
+
 const User = mongoose.model<IUser, UserModel>('User', userSchema);
 
 export default User;

@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import { auth } from '../middleware/auth';
 import {
   createExpense,
   deleteExpense,
@@ -8,29 +9,29 @@ import {
 
 const router = Router();
 
-router.get('/expenses', async (_req: Request, res: Response) => {
+router.get('/expenses', auth, async (req: Request, res: Response) => {
   try {
-    const result = await getAllExpenses();
+    const result = await getAllExpenses(req.user);
     res.json({ result });
   } catch (e) {
     res.status(400).json({ e });
   }
 });
 
-router.get('/expenses/:id', async (req: Request, res: Response) => {
+router.get('/expenses/:id', auth, async (req: Request, res: Response) => {
   try {
-    const result = await getExpense(req.params.id);
+    const result = await getExpense(req.params.id, req.user);
     if (!result) throw new Error('Expense not found');
 
     res.json({ result });
   } catch (e) {
-    res.status(400).json({ e });
+    res.status(400).json({ message: e.message });
   }
 });
 
-router.post('/expenses', async (req: Request, res: Response) => {
+router.post('/expenses', auth, async (req: Request, res: Response) => {
   try {
-    const result = await createExpense({ ...req.body });
+    const result = await createExpense({ ...req.body, user: req.user });
     res.json({ result });
   } catch (e) {
     res.status(400).json({ e });
