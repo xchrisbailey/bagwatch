@@ -21,7 +21,13 @@ import axios from 'axios';
 
 interface Props {
   dialogOpen: boolean;
-  handleClose: Dispatch<SetStateAction<boolean>>;
+  setDialogOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+interface IMutationProps {
+  description: string;
+  category: string;
+  amount: number;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +41,11 @@ const useStyles = makeStyles((theme) => ({
   dialog: {},
 }));
 
-const expenseMutation = async ({ description, category, amount }) => {
+const expenseMutation = async ({
+  description,
+  category,
+  amount,
+}: IMutationProps) => {
   try {
     await axios.post('/api/expenses', { description, category, amount });
     await queryCache.refetchQueries();
@@ -44,7 +54,7 @@ const expenseMutation = async ({ description, category, amount }) => {
   }
 };
 
-export const AddExpenseDialog = ({ dialogOpen, handleClose }: Props) => {
+export const AddExpenseDialog = ({ dialogOpen, setDialogOpen }: Props) => {
   const cache = useQueryCache();
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
@@ -66,14 +76,18 @@ export const AddExpenseDialog = ({ dialogOpen, handleClose }: Props) => {
       setCategory('');
       setDescription('');
       setAmount(0);
-      handleClose();
+      setDialogOpen(false);
     } catch (e) {
       throw new Error(e.message);
     }
   };
 
   return (
-    <Dialog open={dialogOpen} onClose={handleClose} fullWidth={true}>
+    <Dialog
+      open={dialogOpen}
+      onClose={() => setDialogOpen(false)}
+      fullWidth={true}
+    >
       <DialogTitle id="form-dialog-title">Add Expense</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit} noValidate={true}>
