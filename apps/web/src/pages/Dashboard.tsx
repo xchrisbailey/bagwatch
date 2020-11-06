@@ -19,22 +19,18 @@ export const App = () => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const classes = useStyles();
 
-  const handleClickOpen = () => {
-    setDialogOpen(true);
-  };
-
-  const handleClose = () => {
-    setDialogOpen(false);
-  };
-
   return (
     <>
       <Header />
       <Container>
         <ExpenseTable />
       </Container>
-      <AddExpenseDialog dialogOpen={dialogOpen} handleClose={handleClose} />
-      <Fab className={classes.fab} color="primary" onClick={handleClickOpen}>
+      <AddExpenseDialog dialogOpen={dialogOpen} handleClose={setDialogOpen} />
+      <Fab
+        className={classes.fab}
+        color="primary"
+        onClick={() => setDialogOpen(true)}
+      >
         <AddIcon />
       </Fab>
       <ReactQueryDevtools initialIsOpen={false} />

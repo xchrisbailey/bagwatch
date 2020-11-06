@@ -9,13 +9,19 @@ import {
   Select,
   TextField,
 } from '@material-ui/core';
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useState,
+} from 'react';
 import { queryCache, useMutation, useQueryCache } from 'react-query';
 import axios from 'axios';
 
 interface Props {
   dialogOpen: boolean;
-  handleClose: any;
+  handleClose: Dispatch<SetStateAction<boolean>>;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -79,6 +85,7 @@ export const AddExpenseDialog = ({ dialogOpen, handleClose }: Props) => {
                 onChange={(e) => setDescription(e.target.value)}
                 value={description}
                 required
+                fullWidth
               />
             </FormControl>
           </div>
@@ -89,6 +96,7 @@ export const AddExpenseDialog = ({ dialogOpen, handleClose }: Props) => {
                 onChange={handleSelectChange}
                 className={classes.formField}
                 required
+                fullWidth
               >
                 <MenuItem value="Noms">Noms</MenuItem>
                 <MenuItem value="Pooch">Pooch</MenuItem>
@@ -106,6 +114,7 @@ export const AddExpenseDialog = ({ dialogOpen, handleClose }: Props) => {
                 onChange={(e) => setAmount(parseFloat(e.target.value))}
                 value={amount || 0}
                 required
+                fullWidth
               />
             </FormControl>
           </div>
