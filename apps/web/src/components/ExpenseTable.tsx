@@ -34,9 +34,13 @@ export const ExpenseTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.data.result.map((e: Expense) => (
-            <ExpenseRow expense={e} key={e._id} />
-          ))}
+          {data?.data?.result ? (
+            data.data.result.map((e: Expense) => (
+              <ExpenseRow expense={e} key={e._id} />
+            ))
+          ) : (
+            <p>error</p>
+          )}
         </TableBody>
       </Table>
     </TableContainer>

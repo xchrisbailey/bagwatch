@@ -92,7 +92,7 @@ export const AddExpenseDialog = ({ dialogOpen, setDialogOpen }: Props) => {
       <DialogContent>
         <form onSubmit={handleSubmit} noValidate={true}>
           <div>
-            <FormControl required>
+            <FormControl required fullWidth>
               <TextField
                 label="Description"
                 className={classes.formField}
@@ -104,7 +104,7 @@ export const AddExpenseDialog = ({ dialogOpen, setDialogOpen }: Props) => {
             </FormControl>
           </div>
           <div>
-            <FormControl required>
+            <FormControl required fullWidth>
               <Select
                 value={category}
                 onChange={handleSelectChange}
@@ -112,15 +112,26 @@ export const AddExpenseDialog = ({ dialogOpen, setDialogOpen }: Props) => {
                 required
                 fullWidth
               >
-                <MenuItem value="Noms">Noms</MenuItem>
-                <MenuItem value="Pooch">Pooch</MenuItem>
-                <MenuItem value="Billz">Billz</MenuItem>
-                <MenuItem value="Swoll">Swoll</MenuItem>
+                <MenuItem value="housing">Housing</MenuItem>
+                <MenuItem value="transportation">Transportation</MenuItem>
+                <MenuItem value="food">Food</MenuItem>
+                <MenuItem value="utilities">Utilities</MenuItem>
+                <MenuItem value="clothing">Clothing</MenuItem>
+                <MenuItem value="medical">Medical</MenuItem>
+                <MenuItem value="insurance">Insurance</MenuItem>
+                <MenuItem value="household">Household</MenuItem>
+                <MenuItem value="personal">Personal</MenuItem>
+                <MenuItem value="debt">Debt</MenuItem>
+                <MenuItem value="retirement">Retirement</MenuItem>
+                <MenuItem value="education">Education</MenuItem>
+                <MenuItem value="savings">Savings</MenuItem>
+                <MenuItem value="gifts">Gifts</MenuItem>
+                <MenuItem value="entertainment">Entertainment</MenuItem>
               </Select>
             </FormControl>
           </div>
           <div>
-            <FormControl required>
+            <FormControl required fullWidth>
               <TextField
                 label="Amount"
                 className={classes.formField}
