@@ -24,7 +24,7 @@ export const Header = () => {
   const classes = useStyles();
 
   const handleLogout = () => {
-    window.localStorage.removeItem('user');
+    window.localStorage.removeItem('token');
     history.push('/');
   };
 
@@ -35,7 +35,7 @@ export const Header = () => {
           <Typography variant="h6" className={classes.title}>
             BAG watch
           </Typography>
-          {window.localStorage.getItem('user') ? (
+          {window.localStorage.getItem('token') ? (
             <Button color="inherit" onClick={handleLogout}>
               Logout
             </Button>

@@ -10,7 +10,9 @@ interface ICreateExpenseInput {
 }
 
 export const getAllExpenses = async (user: IUser): Promise<IExpense[]> => {
-  const { expenses } = await user.populate({ path: 'expenses' }).execPopulate();
+  const { expenses } = await user
+    .populate({ path: 'expenses', options: { sort: { createdAt: -1 } } })
+    .execPopulate();
   return expenses;
 };
 
