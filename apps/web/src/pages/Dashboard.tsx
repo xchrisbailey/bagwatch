@@ -25,7 +25,7 @@ export const App = () => {
       <Container>
         <ExpenseTable />
       </Container>
-      <AddExpenseDialog dialogOpen={dialogOpen} handleClose={setDialogOpen} />
+      <AddExpenseDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} />
       <Fab
         className={classes.fab}
         color="primary"

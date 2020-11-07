@@ -7,6 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { LoginDialog } from './LoginDialog';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -19,7 +20,14 @@ const useStyles = makeStyles(() => ({
 
 export const Header = () => {
   const [loginDialogOpen, setLoginDialogOpen] = React.useState(false);
+  const history = useHistory();
   const classes = useStyles();
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('user');
+    history.push('/');
+  };
+
   return (
     <>
       <AppBar position="static">
@@ -27,10 +35,18 @@ export const Header = () => {
           <Typography variant="h6" className={classes.title}>
             BAG watch
           </Typography>
-          <Button color="inherit" onClick={() => setLoginDialogOpen(true)}>
-            Login
-          </Button>
-          <Button color="inherit">Sign Up</Button>
+          {window.localStorage.getItem('user') ? (
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+          ) : (
+            <>
+              <Button color="inherit" onClick={() => setLoginDialogOpen(true)}>
+                Login
+              </Button>
+              <Button color="inherit">Sign Up</Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
       <LoginDialog open={loginDialogOpen} setOpen={setLoginDialogOpen} />

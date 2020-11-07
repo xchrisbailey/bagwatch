@@ -11,11 +11,27 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 import { ExpenseRow } from './ExpenseRow';
 import { Expense } from '@bagwatch/data';
+import { useHistory } from 'react-router-dom';
 
 export const ExpenseTable = () => {
+  const history = useHistory();
+
+  const getToken = (): undefined => {
+    if (localStorage.getItem('token')) {
+      return JSON.parse(localStorage.getItem('token') || '');
+    }
+
+    history.push('/');
+  };
+
   const { isLoading, error, data } = useQuery(
     'expenseQuery',
-    async () => await axios.get('/api/expenses')
+    async () =>
+      await axios.get('/api/expenses', {
+        headers: {
+          authorization: `Bearer ${getToken()}`,
+        },
+      })
   );
 
   if (error) return <p>error: {error}</p>;

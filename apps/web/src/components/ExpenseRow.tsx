@@ -1,9 +1,9 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 import { IconButton, TableCell, TableRow } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Expense } from '@bagwatch/data';
 import axios from 'axios';
-import { queryCache, useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryCache } from 'react-query';
 
 interface props {
   expense: Expense;

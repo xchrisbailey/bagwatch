@@ -18,6 +18,7 @@ import React, {
 } from 'react';
 import { queryCache, useMutation, useQueryCache } from 'react-query';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
   dialogOpen: boolean;
@@ -28,6 +29,7 @@ interface IMutationProps {
   description: string;
   category: string;
   amount: number;
+  token: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -45,9 +47,23 @@ const expenseMutation = async ({
   description,
   category,
   amount,
+  token,
 }: IMutationProps) => {
   try {
-    await axios.post('/api/expenses', { description, category, amount });
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const data = {
+      description,
+      category,
+      amount,
+    };
+
+    await axios.post('/api/expenses', data, config);
+
     await queryCache.refetchQueries();
   } catch (e) {
     throw new Error(e.message);
@@ -55,10 +71,12 @@ const expenseMutation = async ({
 };
 
 export const AddExpenseDialog = ({ dialogOpen, setDialogOpen }: Props) => {
+  const history = useHistory();
   const cache = useQueryCache();
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState(0);
+
   const [mutate] = useMutation(expenseMutation, {
     onSuccess: () => cache.refetchQueries('expenseQuery'),
   });
@@ -71,8 +89,11 @@ export const AddExpenseDialog = ({ dialogOpen, setDialogOpen }: Props) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
+    const token: string = JSON.parse(localStorage.getItem('token') || '');
+    if (token.length <= 0) history.push('/');
+
     try {
-      await mutate({ description, amount, category });
+      await mutate({ description, amount, category, token });
       setCategory('');
       setDescription('');
       setAmount(0);
@@ -90,7 +111,7 @@ export const AddExpenseDialog = ({ dialogOpen, setDialogOpen }: Props) => {
     >
       <DialogTitle id="form-dialog-title">Add Expense</DialogTitle>
       <DialogContent>
-        <form onSubmit={handleSubmit} noValidate={true}>
+        <form onSubmit={handleSubmit} noValidate={false}>
           <div>
             <FormControl required fullWidth>
               <TextField

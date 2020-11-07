@@ -1,7 +1,6 @@
 import Expense from './expense.model';
 import { Expense as IExpense } from '@bagwatch/data';
 import { User as IUser } from '@bagwatch/data';
-import User from '../user/user.model';
 
 interface ICreateExpenseInput {
   description: string;
