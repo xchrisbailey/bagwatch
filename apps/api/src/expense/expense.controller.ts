@@ -44,6 +44,15 @@ export const createExpense = async ({
   return await expense.save();
 };
 
-export const deleteExpense = async (id: string): Promise<IExpense> => {
-  return await Expense.findByIdAndDelete(id);
+export const deleteExpense = async (
+  id: string,
+  user: IUser
+): Promise<IExpense> => {
+  const expense = await Expense.findOne({ _id: id, user: user });
+  if (expense) {
+    await expense.deleteOne();
+  } else {
+    throw new Error('Invalid Expense');
+  }
+  return expense;
 };

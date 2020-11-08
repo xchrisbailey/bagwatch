@@ -38,9 +38,9 @@ router.post('/expenses', auth, async (req: Request, res: Response) => {
   }
 });
 
-router.delete('/expenses/:id', async (req: Request, res: Response) => {
+router.delete('/expenses/:id', auth, async (req: Request, res: Response) => {
   try {
-    const result = await deleteExpense(req.params.id);
+    const result = await deleteExpense(req.params.id, req.user);
     res.json({ result });
   } catch (e) {
     res.status(400).json({ e });
