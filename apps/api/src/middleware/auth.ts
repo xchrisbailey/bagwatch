@@ -14,6 +14,6 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     req.user = user;
     next();
   } catch (e) {
-    res.status(401).json({ error: 'please login' });
+    res.status(401).json(e);
   }
 };

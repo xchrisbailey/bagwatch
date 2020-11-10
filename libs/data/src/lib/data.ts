@@ -4,6 +4,7 @@ export interface Expense extends Document {
   amount: number;
   description: string;
   category: string;
+  spendDate: Date;
   createdAt: string;
   user: User;
 }

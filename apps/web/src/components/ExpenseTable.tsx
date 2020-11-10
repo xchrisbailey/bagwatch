@@ -34,7 +34,7 @@ export const ExpenseTable = () => {
       })
   );
 
-  if (error) return <p>error: {error}</p>;
+  if (error) return <p>error: {error.message}</p>;
   if (isLoading) return <p>loading...</p>;
 
   return (
