@@ -1,4 +1,4 @@
-import { Container, Fab, Grid, makeStyles } from '@material-ui/core';
+import { Container, Fab, Grid, makeStyles, Paper } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
 import { ReactQueryDevtools } from 'react-query-devtools';
@@ -35,11 +35,13 @@ export const App = () => {
           spacing={3}
           className={classes.grid}
         >
-          <Grid item md={8} sm={12}>
-            <ExpenseTable />
-          </Grid>
           <Grid item md sm={12}>
-            Graph and Info section
+            <Paper>Graph and Info section</Paper>
+          </Grid>
+          <Grid item md={8} sm={12}>
+            <Paper>
+              <ExpenseTable />
+            </Paper>
           </Grid>
         </Grid>
       </Container>
