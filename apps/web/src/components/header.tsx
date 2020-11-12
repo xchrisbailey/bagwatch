@@ -2,6 +2,7 @@ import React from 'react';
 import {
   AppBar,
   Button,
+  Link,
   makeStyles,
   Toolbar,
   Typography,
@@ -33,7 +34,9 @@ export const Header = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            BAG watch
+            <Link href="/" variant="inherit" color="inherit" underline="none">
+              BAG watch
+            </Link>
           </Typography>
           {window.localStorage.getItem('token') ? (
             <Button color="inherit" onClick={handleLogout}>

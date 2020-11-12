@@ -7,6 +7,7 @@ import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import { CssBaseline } from '@material-ui/core';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+import ProtectedRoute from './utils/ProtectedRoute';
 
 const queryCache = new QueryCache();
 
@@ -16,7 +17,12 @@ ReactDOM.render(
       <BrowserRouter>
         <Switch>
           <Route path="/" component={Landing} exact={true} />
-          <Route path="/dashboard" component={Dashboard} exact={true} />
+          <ProtectedRoute
+            isAuthenticated={localStorage.getItem('token') ? true : false}
+            path="/dashboard"
+            component={Dashboard}
+            exact={true}
+          />
         </Switch>
         <CssBaseline />
       </BrowserRouter>

@@ -37,8 +37,9 @@ export const ExpenseRow = ({ expense }: props) => {
   const [mutate] = useMutation(deleteMutation, {
     onSuccess: async () => await cache.refetchQueries(),
   });
+
   const famount = `$${(expense.amount / 100).toFixed(2) || 0}`;
-  const rdate = new Date(expense.createdAt).toLocaleDateString('en-CA');
+  const rdate = new Date(expense.spendDate).toLocaleDateString('en-CA');
 
   const handleDelete = async (
     e: MouseEvent<HTMLButtonElement>

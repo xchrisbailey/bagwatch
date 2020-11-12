@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import axios from 'axios';
-import { useQuery } from 'react-query';
+import { isError, useQuery } from 'react-query';
 import { ExpenseRow } from './ExpenseRow';
 import { Expense } from '@bagwatch/data';
 import { useHistory } from 'react-router-dom';
@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 export const ExpenseTable = () => {
   const history = useHistory();
 
-  const getToken = (): undefined => {
+  const getToken = (): string | void => {
     if (localStorage.getItem('token')) {
       return JSON.parse(localStorage.getItem('token') || '');
     }
@@ -34,7 +34,8 @@ export const ExpenseTable = () => {
       })
   );
 
-  if (error) return <p>error: {error.message}</p>;
+  if (error && isError(error)) return <p>{error.message}</p>;
+
   if (isLoading) return <p>loading...</p>;
 
   return (
