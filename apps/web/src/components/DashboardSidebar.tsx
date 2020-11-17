@@ -15,7 +15,7 @@ const defaultLabelStyle = {
   fontFamily: 'sans-serif',
 };
 
-export const ExpenseSidebar = ({ result }: Props) => {
+export const DashboardSidebar = ({ result }: Props) => {
   const totals: ITotalType = result.reduce(function (s: ITotalType, a) {
     s[a.category] = s[a.category] + a.amount || a.amount;
     return s;

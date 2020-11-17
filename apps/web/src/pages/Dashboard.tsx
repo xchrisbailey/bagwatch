@@ -9,7 +9,7 @@ import { AddExpenseDialog } from '../components/AddExpenseDialog';
 import { ExpenseTable } from '../components/ExpenseTable';
 
 import { Header } from '../components/header';
-import { ExpenseSidebar } from '../components/ExpenseSidebar';
+import { DashboardSidebar } from '../components/DashboardSidebar';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -64,7 +64,7 @@ export const App = () => {
         >
           <Grid item md sm={12}>
             <Paper>
-              <ExpenseSidebar result={data?.data.result} />
+              <DashboardSidebar result={data?.data.result} />
             </Paper>
           </Grid>
           <Grid item md={8} sm={12}>
