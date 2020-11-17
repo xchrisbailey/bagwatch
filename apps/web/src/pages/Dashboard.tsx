@@ -1,4 +1,11 @@
-import { Container, Fab, Grid, makeStyles, Paper } from '@material-ui/core';
+import {
+  CircularProgress,
+  Container,
+  Fab,
+  Grid,
+  makeStyles,
+  Paper,
+} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
 import axios from 'axios';
@@ -48,7 +55,7 @@ export const App = () => {
 
   if (error && isError(error)) return <p>{error.message}</p>;
 
-  if (isLoading) return <p>loading...</p>;
+  if (isLoading) return <CircularProgress />;
 
   return (
     <>
