@@ -1,11 +1,15 @@
 import { Container, Fab, Grid, makeStyles, Paper } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
+import axios from 'axios';
+import { isError, useQuery } from 'react-query';
 import { ReactQueryDevtools } from 'react-query-devtools';
+import { useHistory } from 'react-router-dom';
 import { AddExpenseDialog } from '../components/AddExpenseDialog';
 import { ExpenseTable } from '../components/ExpenseTable';
 
 import { Header } from '../components/header';
+import { ExpenseSidebar } from '../components/ExpenseSidebar';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -22,6 +26,29 @@ const useStyles = makeStyles((theme) => ({
 export const App = () => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const classes = useStyles();
+  const history = useHistory();
+
+  const getToken = (): string | void => {
+    if (localStorage.getItem('token')) {
+      return JSON.parse(localStorage.getItem('token') || '');
+    }
+
+    history.push('/');
+  };
+
+  const { isLoading, error, data } = useQuery(
+    'expenseQuery',
+    async () =>
+      await axios.get('/api/expenses', {
+        headers: {
+          authorization: `Bearer ${getToken()}`,
+        },
+      })
+  );
+
+  if (error && isError(error)) return <p>{error.message}</p>;
+
+  if (isLoading) return <p>loading...</p>;
 
   return (
     <>
@@ -36,11 +63,13 @@ export const App = () => {
           className={classes.grid}
         >
           <Grid item md sm={12}>
-            <Paper>Graph and Info section</Paper>
+            <Paper>
+              <ExpenseSidebar result={data?.data.result} />
+            </Paper>
           </Grid>
           <Grid item md={8} sm={12}>
             <Paper>
-              <ExpenseTable />
+              <ExpenseTable result={data?.data.result} />
             </Paper>
           </Grid>
         </Grid>
