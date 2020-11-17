@@ -63,9 +63,7 @@ export const App = () => {
           className={classes.grid}
         >
           <Grid item md sm={12}>
-            <Paper>
-              <DashboardSidebar result={data?.data.result} />
-            </Paper>
+            <DashboardSidebar result={data?.data.result} />
           </Grid>
           <Grid item md={8} sm={12}>
             <Paper>
