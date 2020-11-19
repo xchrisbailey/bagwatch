@@ -1,13 +1,10 @@
 import React from 'react';
 import { makeStyles, Paper, Typography } from '@material-ui/core';
+import { randomHexColor } from '../utils/randomHexColor';
 
 interface Props {
   totals: { [key: string]: number };
 }
-
-const randomHexColor = (): string => {
-  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-};
 
 const useStyles = makeStyles((theme) => ({
   totalBar: {
