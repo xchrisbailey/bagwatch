@@ -1,8 +1,7 @@
 import React from 'react';
 import { Expense } from '@bagwatch/data';
-import { PieChart } from 'react-minimal-pie-chart';
-import { Paper } from '@material-ui/core';
-import { ExpenseChart } from './ExpenseChart';
+import { SidebarChart } from './SidebarChart';
+import { SidebarTotals } from './SidebarTotals';
 
 interface Props {
   result: Expense[];
@@ -18,5 +17,10 @@ export const DashboardSidebar = ({ result }: Props) => {
     return s;
   }, {});
 
-  return <ExpenseChart totals={totals} />;
+  return (
+    <>
+      <SidebarTotals totals={totals} />
+      <SidebarChart totals={totals} />
+    </>
+  );
 };

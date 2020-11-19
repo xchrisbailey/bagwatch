@@ -1,4 +1,4 @@
-import { Paper } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
 
@@ -6,7 +6,7 @@ interface Props {
   totals: { [key: string]: number };
 }
 
-export const ExpenseChart = ({ totals }: Props) => {
+export const SidebarChart = ({ totals }: Props) => {
   const chartTotals = [];
   for (const [key, value] of Object.entries(totals)) {
     chartTotals.push({
@@ -22,8 +22,11 @@ export const ExpenseChart = ({ totals }: Props) => {
   };
 
   return (
-    <Paper>
-      <div style={{ padding: '20px' }}>
+    <Paper style={{ padding: '1rem' }}>
+      <Typography variant="h5" gutterBottom>
+        Charted Spending
+      </Typography>
+      <div>
         <PieChart
           data={chartTotals}
           label={({ dataEntry }) =>
