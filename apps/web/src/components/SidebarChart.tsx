@@ -1,7 +1,6 @@
 import { Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
-import { randomHexColor } from '../utils/randomHexColor';
 
 interface Props {
   totals: { [key: string]: number };
@@ -13,7 +12,7 @@ export const SidebarChart = ({ totals }: Props) => {
     chartTotals.push({
       title: key,
       value: value,
-      color: randomHexColor(),
+      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
     });
   }
 

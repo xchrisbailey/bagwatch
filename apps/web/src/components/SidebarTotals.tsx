@@ -1,10 +1,13 @@
 import React from 'react';
 import { makeStyles, Paper, Typography } from '@material-ui/core';
-import { randomHexColor } from '../utils/randomHexColor';
 
 interface Props {
   totals: { [key: string]: number };
 }
+
+const randomHexColor = (): string => {
+  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+};
 
 const useStyles = makeStyles((theme) => ({
   totalBar: {
@@ -30,8 +33,8 @@ export const SidebarTotals = ({ totals }: Props) => {
           className={classes.totalBar}
           style={{ backgroundColor: randomHexColor() }}
         >
-          <Typography variant="button">{k}:</Typography>{' '}
-          <Typography variant="button">${v}</Typography>
+          <Typography variant="button">{k}</Typography>
+          <Typography variant="button">${(v / 100).toFixed(2)}</Typography>
         </div>
       ))}
     </Paper>
