@@ -5,6 +5,7 @@ import {
   Grid,
   makeStyles,
   Paper,
+  Typography,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
@@ -28,12 +29,17 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
   },
+  paperHeader: {
+    textAlign: 'center',
+    padding: theme.spacing(3),
+  },
 }));
 
 export const App = () => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const classes = useStyles();
   const history = useHistory();
+  const date = new Date();
 
   const getToken = (): string | void => {
     if (localStorage.getItem('token')) {
@@ -46,11 +52,14 @@ export const App = () => {
   const { isLoading, error, data } = useQuery(
     'expenseQuery',
     async () =>
-      await axios.get('/api/expenses', {
-        headers: {
-          authorization: `Bearer ${getToken()}`,
-        },
-      })
+      await axios.get(
+        `/api/expenses?month=${date.getMonth()}&year=${date.getFullYear()}`,
+        {
+          headers: {
+            authorization: `Bearer ${getToken()}`,
+          },
+        }
+      )
   );
 
   if (error && isError(error)) return <p>{error.message}</p>;
@@ -69,6 +78,14 @@ export const App = () => {
           spacing={3}
           className={classes.grid}
         >
+          <Grid item sm={12} className={classes.paperHeader}>
+            <Paper>
+              <Typography variant="h4" style={{ textTransform: 'uppercase' }}>
+                {date.toLocaleString('default', { month: 'long' })}{' '}
+                {date.getFullYear()}
+              </Typography>
+            </Paper>
+          </Grid>
           <Grid item md sm={12}>
             <DashboardSidebar result={data?.data.result} />
           </Grid>

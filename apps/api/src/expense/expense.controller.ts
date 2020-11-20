@@ -9,11 +9,39 @@ interface ICreateExpenseInput {
   user: IUser;
 }
 
-export const getAllExpenses = async (user: IUser): Promise<IExpense[]> => {
-  const { expenses } = await user
-    .populate({ path: 'expenses', options: { sort: { createdAt: -1 } } })
-    .execPopulate();
-  return expenses;
+export const getAllExpenses = async (
+  user: IUser,
+  month: number | null,
+  year: number | null
+): Promise<IExpense[]> => {
+  if (!month && !year) {
+    const { expenses } = await user
+      .populate({ path: 'expenses', options: { sort: { createdAt: -1 } } })
+      .execPopulate();
+    return expenses;
+  } else {
+    const expenses = await Expense.aggregate([
+      {
+        $match: {
+          user: user._id,
+        },
+      },
+      {
+        $addFields: {
+          month: { $month: '$spendDate' },
+          year: { $year: '$spendDate' },
+        },
+      },
+      {
+        $match: {
+          month: month + 1,
+          year,
+        },
+      },
+    ]);
+
+    return expenses;
+  }
 };
 
 export const getExpense = async (
