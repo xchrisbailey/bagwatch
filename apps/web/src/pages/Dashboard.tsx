@@ -62,9 +62,23 @@ export const App = () => {
       )
   );
 
-  if (error && isError(error)) return <p>{error.message}</p>;
+  if (error && isError(error))
+    return (
+      <>
+        <Header />
+        <p>{error.message}</p>
+      </>
+    );
 
-  if (isLoading) return <CircularProgress />;
+  if (isLoading)
+    return (
+      <>
+        <Header />
+        <Container style={{ textAlign: 'center' }}>
+          <CircularProgress />
+        </Container>
+      </>
+    );
 
   return (
     <>
