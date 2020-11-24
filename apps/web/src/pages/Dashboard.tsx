@@ -3,14 +3,17 @@ import {
   Container,
   Fab,
   Grid,
-  makeStyles,
+  IconButton,
   Paper,
+  makeStyles,
   Typography,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import React from 'react';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { isError, useQuery } from 'react-query';
+import { isError, queryCache, useQuery } from 'react-query';
 import { ReactQueryDevtools } from 'react-query-devtools';
 import { useHistory } from 'react-router-dom';
 import { AddExpenseDialog } from '../components/AddExpenseDialog';
@@ -33,13 +36,18 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     padding: theme.spacing(3),
   },
+  paperFlex: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 }));
 
 export const App = () => {
-  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
   const classes = useStyles();
   const history = useHistory();
-  const date = new Date();
 
   const getToken = (): string | void => {
     if (localStorage.getItem('token')) {
@@ -47,6 +55,22 @@ export const App = () => {
     }
 
     history.push('/');
+  };
+
+  const changeDate = async (action: string): Promise<void> => {
+    switch (action) {
+      case 'inc':
+        const incDate = date.setMonth(date.getMonth() + 1);
+        setDate(new Date(incDate));
+        await queryCache.refetchQueries(['expenseQuery']);
+        break;
+      case 'dec':
+        const newDate = date.setMonth(date.getMonth() - 1);
+        setDate(new Date(newDate));
+        await queryCache.refetchQueries(['expenseQuery']);
+        break;
+      default:
+    }
   };
 
   const { isLoading, error, data } = useQuery(
@@ -93,11 +117,23 @@ export const App = () => {
           className={classes.grid}
         >
           <Grid item sm={12} className={classes.paperHeader}>
-            <Paper>
+            <Paper className={classes.paperFlex}>
+              <IconButton
+                aria-label="back-month"
+                onClick={() => changeDate('dec')}
+              >
+                <ArrowLeftIcon />
+              </IconButton>
               <Typography variant="h4" style={{ textTransform: 'uppercase' }}>
                 {date.toLocaleString('default', { month: 'long' })}{' '}
                 {date.getFullYear()}
               </Typography>
+              <IconButton
+                aria-label="forward-month"
+                onClick={() => changeDate('inc')}
+              >
+                <ArrowRightIcon />
+              </IconButton>
             </Paper>
           </Grid>
           <Grid item md sm={12}>

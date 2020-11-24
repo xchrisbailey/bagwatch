@@ -10,8 +10,8 @@ import {
 import { useHistory } from 'react-router-dom';
 
 interface Props {
-  signupOpen: Dispatch<SetStateAction<boolean>>;
-  loginOpen: Dispatch<SetStateAction<boolean>>;
+  signupOpen?: Dispatch<SetStateAction<boolean>>;
+  loginOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
 const useStyles = makeStyles(() => ({
@@ -46,12 +46,16 @@ export const Header = ({ signupOpen, loginOpen }: Props) => {
           </Button>
         ) : (
           <>
-            <Button color="inherit" onClick={() => loginOpen(true)}>
-              Login
-            </Button>
-            <Button color="inherit" onClick={() => signupOpen(true)}>
-              Sign Up
-            </Button>
+            {loginOpen && (
+              <Button color="inherit" onClick={() => loginOpen(true)}>
+                Login
+              </Button>
+            )}
+            {signupOpen && (
+              <Button color="inherit" onClick={() => signupOpen(true)}>
+                Sign Up
+              </Button>
+            )}
           </>
         )}
       </Toolbar>

@@ -3,7 +3,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogTitle';
 import { Button, DialogActions, TextField } from '@material-ui/core';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 interface Props {
@@ -22,12 +22,10 @@ export const LoginDialog = ({ open, setOpen }: Props) => {
   const loginRequest = async () => {
     try {
       const result = await axios.post('/api/login', { email, password });
-      window.localStorage.setItem('token', JSON.stringify(result.data.token));
       history.push('/dashboard');
-      window.location.reload();
+      window.localStorage.setItem('token', JSON.stringify(result.data.token));
     } catch (e) {
       history.push('/');
-      window.location.reload();
     }
   };
 
