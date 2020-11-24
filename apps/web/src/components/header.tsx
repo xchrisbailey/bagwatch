@@ -7,8 +7,10 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { LoginDialog } from './LoginDialog';
 import { useHistory } from 'react-router-dom';
+
+import { LoginDialog } from './LoginDialog';
+import { SignupDialog } from './SignupDialog';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,6 +23,7 @@ const useStyles = makeStyles(() => ({
 
 export const Header = () => {
   const [loginDialogOpen, setLoginDialogOpen] = React.useState(false);
+  const [signupDialogOpen, setSignupDialogOpen] = React.useState(false);
   const history = useHistory();
   const classes = useStyles();
 
@@ -47,12 +50,15 @@ export const Header = () => {
               <Button color="inherit" onClick={() => setLoginDialogOpen(true)}>
                 Login
               </Button>
-              <Button color="inherit">Sign Up</Button>
+              <Button color="inherit" onClick={() => setSignupDialogOpen(true)}>
+                Sign Up
+              </Button>
             </>
           )}
         </Toolbar>
       </AppBar>
       <LoginDialog open={loginDialogOpen} setOpen={setLoginDialogOpen} />
+      <SignupDialog open={signupDialogOpen} setOpen={setSignupDialogOpen} />
     </>
   );
 };
