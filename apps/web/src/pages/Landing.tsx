@@ -23,6 +23,11 @@ const Landing = () => {
         <Typography variant="body1" gutterBottom>
           Expense tracking made simple, and pretty
         </Typography>
+        {localStorage.getItem('token') ? (
+          <p>go to dashboard</p>
+        ) : (
+          <p>login or signup</p>
+        )}
       </Container>
     </>
   );

@@ -24,8 +24,10 @@ export const LoginDialog = ({ open, setOpen }: Props) => {
       const result = await axios.post('/api/login', { email, password });
       window.localStorage.setItem('token', JSON.stringify(result.data.token));
       history.push('/dashboard');
+      window.location.reload();
     } catch (e) {
       history.push('/');
+      window.location.reload();
     }
   };
 

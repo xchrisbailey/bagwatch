@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
@@ -14,7 +14,7 @@ const queryCache = new QueryCache();
 ReactDOM.render(
   <React.StrictMode>
     <ReactQueryCacheProvider queryCache={queryCache}>
-      <BrowserRouter>
+      <Router>
         <Switch>
           <Route path="/" component={Landing} exact={true} />
           <ProtectedRoute
@@ -25,7 +25,7 @@ ReactDOM.render(
           />
         </Switch>
         <CssBaseline />
-      </BrowserRouter>
+      </Router>
     </ReactQueryCacheProvider>
   </React.StrictMode>,
   document.getElementById('root')
