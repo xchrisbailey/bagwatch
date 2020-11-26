@@ -21,6 +21,7 @@ import { ExpenseTable } from '../components/ExpenseTable';
 
 import { Header } from '../components/header';
 import { DashboardSidebar } from '../components/DashboardSidebar';
+import { LoginForm } from '../components/LoginForm';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -59,16 +60,18 @@ export const App = () => {
 
   const changeDate = async (action: string): Promise<void> => {
     switch (action) {
-      case 'inc':
+      case 'inc': {
         const incDate = date.setMonth(date.getMonth() + 1);
         setDate(new Date(incDate));
         await queryCache.refetchQueries(['expenseQuery']);
         break;
-      case 'dec':
+      }
+      case 'dec': {
         const newDate = date.setMonth(date.getMonth() - 1);
         setDate(new Date(newDate));
         await queryCache.refetchQueries(['expenseQuery']);
         break;
+      }
       default:
     }
   };
@@ -87,18 +90,27 @@ export const App = () => {
   );
 
   if (error && isError(error))
-    return (
-      <>
-        <Header />
-        <p>{error.message}</p>
-      </>
-    );
+    if (error.message.includes('401')) {
+      return (
+        <>
+          <Header />
+          <Container style={{ marginTop: '2rem' }}>
+            <Typography variant="h3" color="error">
+              Please login
+            </Typography>
+            <LoginForm />
+          </Container>
+        </>
+      );
+    } else {
+      history.push('/');
+    }
 
   if (isLoading)
     return (
       <>
         <Header />
-        <Container style={{ textAlign: 'center' }}>
+        <Container style={{ textAlign: 'center', marginTop: '2rem' }}>
           <CircularProgress />
         </Container>
       </>

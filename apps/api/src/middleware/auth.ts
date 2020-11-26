@@ -9,7 +9,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     const decoded: any = jwt.verify(token, process.env.SECRET_KEY);
     const user = await User.findOne({ _id: decoded._id });
 
-    if (!user) throw new Error();
+    if (!user) throw new Error('Could not authorize');
 
     req.user = user;
     next();
