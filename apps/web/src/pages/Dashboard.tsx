@@ -19,6 +19,7 @@ import { useHistory } from 'react-router-dom';
 import { AddExpenseDialog } from '../components/AddExpenseDialog';
 import { ExpenseTable } from '../components/ExpenseTable';
 
+import { Expense as ExpenseType } from '@bagwatch/data';
 import { Header } from '../components/header';
 import { DashboardSidebar } from '../components/DashboardSidebar';
 import { LoginForm } from '../components/LoginForm';
@@ -47,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
 export const App = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [date, setDate] = useState(new Date());
+  const [url, setUrl] = useState(
+    `/api/expenses?month=${date.getMonth()}&year=${date.getFullYear()}`
+  );
   const classes = useStyles();
   const history = useHistory();
 
@@ -63,12 +67,18 @@ export const App = () => {
       case 'inc': {
         const incDate = date.setMonth(date.getMonth() + 1);
         setDate(new Date(incDate));
+        setUrl(
+          `/api/expenses?month=${date.getMonth()}&year=${date.getFullYear()}`
+        );
         await queryCache.refetchQueries(['expenseQuery']);
         break;
       }
       case 'dec': {
         const newDate = date.setMonth(date.getMonth() - 1);
         setDate(new Date(newDate));
+        setUrl(
+          `/api/expenses?month=${date.getMonth()}&year=${date.getFullYear()}`
+        );
         await queryCache.refetchQueries(['expenseQuery']);
         break;
       }
@@ -76,17 +86,21 @@ export const App = () => {
     }
   };
 
-  const { isLoading, error, data } = useQuery(
-    'expenseQuery',
-    async () =>
-      await axios.get(
-        `/api/expenses?month=${date.getMonth()}&year=${date.getFullYear()}`,
-        {
-          headers: {
-            authorization: `Bearer ${getToken()}`,
-          },
-        }
-      )
+  const doFetch = (_key: string, u: string): Promise<any> => {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(u, { headers: { authorization: `Bearer ${getToken()}` } })
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
+    });
+  };
+
+  const { isLoading, error, data } = useQuery<ExpenseType[], Error>(
+    ['expenses', url],
+    doFetch,
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 
   if (error && isError(error))

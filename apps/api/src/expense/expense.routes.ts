@@ -11,8 +11,8 @@ const router = Router();
 
 router.get('/expenses', auth, async (req: Request, res: Response) => {
   try {
-    const month: number = +req.params.month;
-    const year: number = +req.params.year;
+    const month: number = +req.query.month;
+    const year: number = +req.query.year;
     const result = await getAllExpenses(req.user, month, year);
     res.json({ result });
   } catch (e) {
