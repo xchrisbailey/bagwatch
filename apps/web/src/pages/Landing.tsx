@@ -27,7 +27,7 @@ const Landing = () => {
         </Typography>
 
         <Typography variant="body1" gutterBottom>
-          Expense tracking made simple, and pretty
+          Expense tracking made simple
         </Typography>
         {localStorage.getItem('token') ? (
           <Button
