@@ -12,7 +12,6 @@ import AddIcon from '@material-ui/icons/Add';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import React, { useState } from 'react';
-import axios from 'axios';
 import { isError, queryCache, useQuery } from 'react-query';
 import { ReactQueryDevtools } from 'react-query-devtools';
 import { useHistory } from 'react-router-dom';
@@ -23,6 +22,10 @@ import { Expense as ExpenseType } from '@bagwatch/data';
 import { Header } from '../components/header';
 import { DashboardSidebar } from '../components/DashboardSidebar';
 import { LoginForm } from '../components/LoginForm';
+
+export interface DataType {
+  result: ExpenseType[];
+}
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -86,22 +89,25 @@ export const App = () => {
     }
   };
 
-  const doFetch = (_key: string, u: string): Promise<any> => {
-    return new Promise((resolve, reject) => {
-      axios
-        .get(u, { headers: { authorization: `Bearer ${getToken()}` } })
-        .then((data) => resolve(data))
-        .catch((err) => reject(err));
+  const doFetch = async (_key: string, u: string): Promise<DataType> => {
+    const res = await fetch(u, {
+      method: 'GET',
+      headers: { authorization: `Bearer ${getToken()}` },
     });
+
+    const expenses = await res.json();
+    return expenses;
   };
 
-  const { isLoading, error, data } = useQuery<ExpenseType[], Error>(
+  const { isLoading, error, data } = useQuery<DataType, Error>(
     ['expenses', url],
     doFetch,
     {
       refetchOnWindowFocus: false,
     }
   );
+
+  console.log(data);
 
   if (error && isError(error))
     if (error.message.includes('401')) {
@@ -163,11 +169,11 @@ export const App = () => {
             </Paper>
           </Grid>
           <Grid item md sm={12}>
-            <DashboardSidebar result={data?.data.result} />
+            {data?.result && <DashboardSidebar result={data?.result} />}
           </Grid>
           <Grid item md={8} sm={12}>
             <Paper>
-              <ExpenseTable result={data?.data.result} />
+              {data?.result && <ExpenseTable result={data.result} />}
             </Paper>
           </Grid>
         </Grid>
