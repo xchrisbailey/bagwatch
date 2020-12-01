@@ -107,8 +107,6 @@ export const App = () => {
     }
   );
 
-  console.log(data);
-
   if (error && isError(error))
     if (error.message.includes('401')) {
       return (

@@ -15,6 +15,7 @@ export const LoginDialog = ({ open, setOpen }: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
+
   const handleClose = () => {
     setOpen(false);
   };

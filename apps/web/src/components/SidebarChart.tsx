@@ -1,6 +1,7 @@
 import { Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
+import { getColor } from '../utils/CategoryColors';
 
 interface Props {
   totals: { [key: string]: number };
@@ -12,7 +13,7 @@ export const SidebarChart = ({ totals }: Props) => {
     chartTotals.push({
       title: key,
       value: value,
-      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      color: getColor(key),
     });
   }
 
